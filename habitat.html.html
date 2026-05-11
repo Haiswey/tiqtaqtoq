@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TiQ-TaQ-ToQ: Habitat Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #4fc3f7;
+            --sunny-yellow: #fff176;
+            --soft-green: #81c784;
+            --coral-pink: #ff8a80;
+            --text-color: #2c3e50;
+            /* Adaptive cell size for mobile and desktop */
+            --cell-size: min(100px, 28vw); 
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa 0%, #fff9c4 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .parallax-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .floating-emoji {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.4;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            from { transform: translateY(110vh) rotate(0deg); }
+            to { transform: translateY(-10vh) rotate(360deg); }
+        }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: clamp(2rem, 8vw, 3.2rem);
+            color: #ff7043;
+            margin: 20px 0 10px 0;
+            text-shadow: 2px 2px 0px #fff;
+        }
+
+        .status-bar {
+            font-size: clamp(1rem, 4vw, 1.4rem);
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: var(--text-color);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            z-index: 10;
+        }
+
+        .game-container {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(3, var(--cell-size));
+            grid-template-rows: repeat(3, var(--cell-size));
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .cell {
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: calc(var(--cell-size) * 0.6);
+            font-family: 'Fredoka One', cursive;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #ddd;
+            position: relative;
+            user-select: none;
+        }
+
+        .cell.taken { cursor: default; }
+        .cell.x { color: var(--coral-pink); }
+        .cell.o { color: var(--primary-blue); }
+
+        #win-line {
+            position: absolute;
+            background: #ff4081;
+            border-radius: 10px;
+            display: none;
+            z-index: 15;
+            pointer-events: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 25px;
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .ans-btn {
+            padding: 15px;
+            font-size: 1.1rem;
+            margin: 5px;
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary-blue);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #0288d1;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .flash {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flash.green { background: rgba(129, 199, 132, 0.8); }
+        .flash.red { background: rgba(255, 138, 128, 0.8); }
+        .big-icon { font-size: 8rem; display: none; }
+
+        .reset-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            background: var(--soft-green);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            display: none;
+            font-family: 'Fredoka One', cursive;
+            box-shadow: 0 4px 0 #4caf50;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="parallax-container" id="parallax"></div>
+    <h1>TiQ-TaQ-ToQ</h1>
+    <div class="status-bar" id="status">Player X's Turn!</div>
+
+    <div class="game-container" id="board">
+        <div id="win-line"></div>
+        <div class="cell" data-index="0"></div>
+        <div class="cell" data-index="1"></div>
+        <div class="cell" data-index="2"></div>
+        <div class="cell" data-index="3"></div>
+        <div class="cell" data-index="4"></div>
+        <div class="cell" data-index="5"></div>
+        <div class="cell" data-index="6"></div>
+        <div class="cell" data-index="7"></div>
+        <div class="cell" data-index="8"></div>
+    </div>
+
+    <button class="reset-btn" id="resetBtn" onclick="location.reload()">Play Again!</button>
+
+    <div class="modal" id="quizModal">
+        <div class="modal-content">
+            <div class="question-text" id="question" style="font-size: 1.4rem; margin-bottom: 20px; font-weight: bold; color: #2c3e50;">Loading...</div>
+            <div id="options"></div>
+        </div>
+    </div>
+
+    <div id="flash" class="flash">
+        <div id="checkIcon" class="big-icon">✅</div>
+        <div id="crossIcon" class="big-icon">❌</div>
+    </div>
+
+    <script>
+        const questionBank = [
+            { q: "Where do camels live?", options: ["In the ocean", "In the jungle", "In the desert", "In the polar region"], correct: "In the desert" },
+            { q: "Where do penguins live?", options: ["In the ocean", "In the jungle", "In the desert", "In the polar region"], correct: "In the polar region" },
+            { q: "Where do parrots live?", options: ["In the ocean", "In the jungle", "In the desert", "In the polar region"], correct: "In the jungle" },
+            { q: "What can you find in the ocean?", options: ["coral", "sand", "snow", "rocks"], correct: "coral" },
+            { q: "What can you find in the mountains?", options: ["coral", "sand", "trees", "rocks"], correct: "rocks" },
+            { q: "What can you find in the jungle?", options: ["trees", "sand", "snow", "rocks"], correct: "trees" },
+            { q: "What animal can you find in the mountains?", options: ["goat", "camel", "shark", "polar bear"], correct: "goat" },
+            { q: "What animal can you find in the ocean?", options: ["shark", "parrot", "monkey", "cat"], correct: "shark" },
+            { q: "What animal can you find in the jungle?", options: ["camel", "tiger", "jellyfish", "penguin"], correct: "tiger" }
+        ];
+
+        let availableQuestions = [...questionBank];
+        let currentPlayer = 'X';
+        let gameState = ["", "", "", "", "", "", "", "", ""];
+        let winnerFound = false;
+        let selectedCellIndex = null;
+
+        const cells = document.querySelectorAll('.cell');
+        const statusDisplay = document.getElementById('status');
+        const modal = document.getElementById('quizModal');
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        // Background Emojis
+        const parallax = document.getElementById('parallax');
+        for(let i=0; i<15; i++) {
+            let span = document.createElement('span');
+            span.className = 'floating-emoji';
+            span.innerText = ['🌳', '🐫', '🐧', '🌊', '🐯', '🏔️'][Math.floor(Math.random()*6)];
+            span.style.left = Math.random() * 100 + 'vw';
+            span.style.animationDuration = (Math.random() * 5 + 10) + 's';
+            parallax.appendChild(span);
+        }
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            // Victory Fanfare Logic
+            if(type === 'victory') {
+                const now = audioCtx.currentTime;
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                notes.forEach((freq, index) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain); gain.connect(audioCtx.destination);
+                    osc.frequency.setValueAtTime(freq, now + (index * 0.1));
+                    gain.gain.setValueAtTime(0, now + (index * 0.1));
+                    gain.gain.linearRampToValueAtTime(0.2, now + (index * 0.1) + 0.05);
+                    gain.gain.linearRampToValueAtTime(0, now + (index * 0.1) + 0.3);
+                    osc.start(now + (index * 0.1));
+                    osc.stop(now + (index * 0.1) + 0.4);
+                });
+                return;
+            }
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            if(type === 'correct') {
+                osc.frequency.setValueAtTime(523, audioCtx.currentTime);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+            } else {
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+
+        cells.forEach(cell => {
+            cell.addEventListener('click', () => {
+                const idx = cell.getAttribute('data-index');
+                if (gameState[idx] !== "") return;
+                selectedCellIndex = idx;
+                showQuestion();
+            });
+        });
+
+        function showQuestion() {
+            if (availableQuestions.length === 0) availableQuestions = [...questionBank];
+            const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+            const qObj = availableQuestions[randomIndex];
+            availableQuestions.splice(randomIndex, 1);
+
+            document.getElementById('question').innerText = qObj.q;
+            const optCont = document.getElementById('options');
+            optCont.innerHTML = '';
+            
+            qObj.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'ans-btn';
+                btn.innerText = opt;
+                btn.onclick = () => {
+                    modal.style.display = 'none';
+                    if(opt === qObj.correct) {
+                        provideFeedback(true);
+                        makeMove();
+                    } else {
+                        provideFeedback(false);
+                        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                        updateStatusText();
+                    }
+                };
+                optCont.appendChild(btn);
+            });
+            modal.style.display = 'flex';
+        }
+
+        function provideFeedback(isCorrect) {
+            const flash = document.getElementById('flash');
+            const icon = isCorrect ? document.getElementById('checkIcon') : document.getElementById('crossIcon');
+            flash.className = `flash ${isCorrect ? 'green' : 'red'}`;
+            flash.style.opacity = '1';
+            icon.style.display = 'block';
+            playSound(isCorrect ? 'correct' : 'wrong');
+            setTimeout(() => { flash.style.opacity = '0'; icon.style.display = 'none'; }, 800);
+        }
+
+        function makeMove() {
+            gameState[selectedCellIndex] = currentPlayer;
+            const cell = cells[selectedCellIndex];
+            cell.innerText = currentPlayer;
+            cell.classList.add('taken', currentPlayer.toLowerCase());
+            
+            checkWinner();
+            
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            updateStatusText();
+
+            if (!gameState.includes("")) {
+                document.getElementById('resetBtn').style.display = 'block';
+                statusDisplay.innerText = "Board Full! Great Job!";
+            }
+        }
+
+        function updateStatusText() {
+            if (!gameState.includes("")) return;
+            statusDisplay.innerText = `Player ${currentPlayer}'s Turn!`;
+        }
+
+        function checkWinner() {
+            const winWays = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            for (let cond of winWays) {
+                let [a, b, c] = cond;
+                if (gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c]) {
+                    if (!winnerFound) {
+                        drawWinLine(cond);
+                        winnerFound = true;
+                        playSound('victory');
+                        setTimeout(() => {
+                            alert("🎉 Player " + gameState[a] + " got three in a row! Keep filling the rest of the squares!");
+                        }, 300);
+                    }
+                }
+            }
+        }
+
+        function drawWinLine(indices) {
+            const line = document.getElementById('win-line');
+            const s = cells[indices[0]].getBoundingClientRect();
+            const e = cells[indices[2]].getBoundingClientRect();
+            const b = document.getElementById('board').getBoundingClientRect();
+            
+            const x1 = s.left + s.width/2 - b.left;
+            const y1 = s.top + s.height/2 - b.top;
+            const x2 = e.left + e.width/2 - b.left;
+            const y2 = e.top + e.height/2 - b.top;
+            
+            line.style.width = Math.hypot(x2-x1, y2-y1) + 'px';
+            line.style.height = '8px';
+            line.style.left = x1 + 'px';
+            line.style.top = (y1 - 4) + 'px';
+            line.style.transform = `rotate(${Math.atan2(y2-y1, x2-x1)}rad)`;
+            line.style.transformOrigin = '0 50%';
+            line.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -40,7 +40,7 @@ function renderAuth(app) {
         <h1>${t('teacherArea')}</h1>
         <p class="muted">${t('teacherIntro')}</p>
         <button class="btn wide big google" id="google">${IC.google}<span>${t('google')}</span></button>
-        <p class="muted small center-text">${t('googleNote')}</p>
+        <p class="muted small center-text">${t('googleNote')} <a href="/privacy.html">${t('privacy')}</a></p>
         <p class="err" id="authErr" ${loginError.message ? '' : 'hidden'}>${esc(loginError.message)}</p>
       </div>
     </main>`;

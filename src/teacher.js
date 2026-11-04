@@ -1,7 +1,7 @@
 import { t } from './i18n.js';
 import { IC } from './icons.js';
 import { TOPICS, topicById } from './bank.js';
-import { sb, newCode, uploadPicture, removePicture } from './supabase.js';
+import { sb, SUPABASE_URL, SUPABASE_KEY, newCode, uploadPicture, removePicture } from './supabase.js';
 import { guard, header, wireHeader } from './shell.js';
 import { $, $$, esc, toast, copyText } from './util.js';
 
@@ -11,7 +11,7 @@ const MAX_OPTIONS = 4;
 export async function renderTeacher(app, sub, id) {
   const { data } = await sb.auth.getSession();
   const user = data.session?.user;
-  if (!user) return renderAuth(app, 'login');
+  if (!user) return renderAuth(app);
   if (sub === 'edit' && id) return renderEditor(app, user, { id });
   if (sub === 'new') return renderEditor(app, user, { from: id });
   return renderDashboard(app, user);
@@ -19,8 +19,19 @@ export async function renderTeacher(app, sub, id) {
 
 const shareLink = (code) => `${location.origin}/#/play/${code}`;
 
-// ----- log in / sign up -----
-function renderAuth(app, mode) {
+// ----- log in with Google (the first log in creates the account) -----
+export const loginError = { message: '' };
+
+async function googleEnabled() {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/auth/v1/settings`, { headers: { apikey: SUPABASE_KEY } });
+    return !!(await r.json()).external?.google;
+  } catch (e) {
+    return false;
+  }
+}
+
+function renderAuth(app) {
   app.innerHTML = `
     ${header()}
     <main class="page narrow">
@@ -28,46 +39,26 @@ function renderAuth(app, mode) {
       <div class="card">
         <h1>${t('teacherArea')}</h1>
         <p class="muted">${t('teacherIntro')}</p>
-        <div class="tabs" role="tablist">
-          <button class="tab ${mode === 'login' ? 'on' : ''}" data-m="login" role="tab">${t('login')}</button>
-          <button class="tab ${mode === 'signup' ? 'on' : ''}" data-m="signup" role="tab">${t('signup')}</button>
-        </div>
-        <form id="authForm" class="stack">
-          <label>${t('email')}<input class="field" type="email" id="em" required autocomplete="email"></label>
-          <label>${t('password')}<input class="field" type="password" id="pw" required minlength="6"
-            autocomplete="${mode === 'login' ? 'current-password' : 'new-password'}"></label>
-          <p class="err" id="authErr" hidden></p>
-          <button class="btn primary big wide" type="submit">${mode === 'login' ? t('login') : t('signup')}</button>
-        </form>
-        <p class="muted small">${t('forgot')}</p>
+        <button class="btn wide big google" id="google">${IC.google}<span>${t('google')}</span></button>
+        <p class="muted small center-text">${t('googleNote')}</p>
+        <p class="err" id="authErr" ${loginError.message ? '' : 'hidden'}>${esc(loginError.message)}</p>
       </div>
     </main>`;
-  wireHeader(app, () => renderAuth(app, mode));
-  $$('.tab', app).forEach((b) => (b.onclick = () => renderAuth(app, b.dataset.m)));
+  wireHeader(app, () => renderAuth(app));
   const err = $('#authErr', app);
-  $('#authForm', app).onsubmit = async (e) => {
-    e.preventDefault();
-    const email = $('#em', app).value.trim();
-    const password = $('#pw', app).value;
-    err.hidden = true;
-    if (password.length < 6) { err.textContent = t('pwShort'); err.hidden = false; return; }
-    const btn = $('#authForm button', app);
+  $('#google', app).onclick = async (e) => {
+    const btn = e.currentTarget;
     btn.disabled = true;
-    try {
-      if (mode === 'login') {
-        const { error } = await sb.auth.signInWithPassword({ email, password });
-        if (error) throw new Error(error.message.includes('Invalid') ? t('authFailed') : error.message);
-      } else {
-        const { data, error } = await sb.auth.signUp({ email, password });
-        if (error) throw error;
-        if (!data.session) throw new Error(t('signupConfirm'));
-      }
-      renderTeacher(app);
-    } catch (ex) {
-      err.textContent = ex.message || t('netError');
-      err.hidden = false;
-      btn.disabled = false;
-    }
+    loginError.message = '';
+    const fail = () => { err.textContent = t('googleFailed'); err.hidden = false; btn.disabled = false; };
+    // Without this check an unconfigured provider shows Supabase's raw error page.
+    if (!(await googleEnabled())) return fail();
+    // Google sends the teacher back to /?login=teacher; main.js finishes the log in there.
+    const { error } = await sb.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: `${location.origin}/?login=teacher`, queryParams: { prompt: 'select_account' } },
+    });
+    if (error) fail();
   };
 }
 

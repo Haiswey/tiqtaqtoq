@@ -4,7 +4,8 @@ import { createClient } from '@supabase/supabase-js';
 export const SUPABASE_URL = 'https://dtomacgviokomomwqagr.supabase.co';
 export const SUPABASE_KEY = 'sb_publishable_1zCKKS3P5krHdgZLWquLAg_P-9M6JG5';
 
-export const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+// PKCE returns ?code= after Google log in, which leaves the #/ page routes alone.
+export const sb = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { flowType: 'pkce' } });
 
 const CODE_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 export function newCode() {

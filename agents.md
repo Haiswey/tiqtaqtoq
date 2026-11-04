@@ -4,8 +4,9 @@
 - Win rule: the first player to make a line wins; play continues until the board is full (teacher's choice).
 - Wrong answer or time up: the square stays empty and the turn passes. The answer is not revealed during the game;
   the optional end-of-game review shows it.
-- Teacher login: email and password, no confirmation email (Supabase free email cannot reach other teachers).
-  Login links were the first choice and were dropped for that reason.
+- Teacher login: "Continue with Google" only (teacher's choice, 2026-11-04); the first log in creates the account.
+  Email login links were dropped because Supabase's free email cannot reach other teachers; email + password was
+  used briefly and replaced by Google before any teacher signed up.
 - Any teacher can sign up and make sets. Pupils never log in. No pupil names or results are stored online;
   names stay in the browser only.
 - No read-aloud button: the game tests pupils' reading.

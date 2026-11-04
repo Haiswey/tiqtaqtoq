@@ -357,6 +357,8 @@ textarea.field { resize: vertical; line-height: 1.4; }
 @keyframes fall { to { top: 105vh; rotate: 540deg; } }
 
 /* ----- teacher ----- */
+.btn.google { background: #fff; color: #1f1f1f; border: 2px solid #dadce0; box-shadow: 0 4px 0 #dadce0; margin: 18px 0 10px; }
+.btn.google .ic { width: 22px; height: 22px; }
 .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--card-2); padding: 4px; border-radius: 14px; margin: 14px 0 18px; }
 .tab { border: 0; background: transparent; padding: 10px; border-radius: 10px; font-weight: 700; cursor: pointer; white-space: nowrap; }
 .tab.on { background: var(--card); box-shadow: 0 2px 0 var(--line); }

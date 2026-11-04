@@ -5,7 +5,7 @@ The first player to make a line wins, and play continues until the board is full
 
 - **Pupils**: open a ready-made topic or type the game code from their teacher. Play with a friend on one device,
   or against the computer (Easy, Medium, Hard).
-- **Teachers**: sign up with email and password, make question sets (multiple choice or typed answer, optional
+- **Teachers**: continue with their Google account, make question sets (multiple choice or typed answer, optional
   picture for each question), choose a timer and an end-of-game answer review, and share the game code or link.
 - Interface in English, Bahasa Melayu and Chinese.
 

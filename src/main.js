@@ -2,9 +2,9 @@ import './style.css';
 import { t, getLang, setLang } from './i18n.js';
 import { IC, MARK } from './icons.js';
 import { TOPICS, topicById } from './bank.js';
-import { fetchSetByCode } from './supabase.js';
+import { sb, fetchSetByCode } from './supabase.js';
 import { runGame } from './game.js';
-import { renderTeacher } from './teacher.js';
+import { renderTeacher, loginError } from './teacher.js';
 import { sound } from './sound.js';
 import { guard, store, header, wireHeader } from './shell.js';
 import { $, $$, esc } from './util.js';
@@ -185,4 +185,17 @@ window.addEventListener('hashchange', () => {
 window.addEventListener('beforeunload', (e) => {
   if (guard.check && !guard.check(true)) { e.preventDefault(); e.returnValue = ''; }
 });
-route();
+
+// Back from Google: wait for Supabase to finish the log in, then open the teacher area.
+async function start() {
+  const params = new URLSearchParams(location.search);
+  if (params.has('login') || params.has('code') || params.has('error')) {
+    app.innerHTML = `${header()}<main class="page"><div class="card center-text muted">${t('loading')}</div></main>`;
+    const { data } = await sb.auth.getSession();
+    if (!data.session) loginError.message = t('loginCancelled');
+    history.replaceState(null, '', '/#/teacher');
+    lastHash = location.hash;
+  }
+  route();
+}
+start();

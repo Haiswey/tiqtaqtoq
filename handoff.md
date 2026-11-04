@@ -12,7 +12,8 @@ _Last update: 2026-11-04_
 - Google log in is set up (2026-11-04): Google Cloud project `tiq-taq-toq` (account iyewsiah@gmail.com), consent
   screen External and In production, OAuth client "TiQ-TaQ-ToQ Supabase"; Supabase Google provider on, Site URL
   `https://tiqtaqtoq.vercel.app`, redirect URLs `https://tiqtaqtoq.vercel.app/**` and `http://localhost:5174/**`.
-  The Google page says "continue to dtomacgviokomomwqagr.supabase.co" (free plan, no custom domain).
+  Authorized JavaScript origins: https://tiqtaqtoq.vercel.app, http://localhost:5174, http://localhost (for the
+  Google sign-in button). The fallback redirect log in still names dtomacgviokomomwqagr.supabase.co.
 - Teacher to test log in, a set with pictures, and play on a real phone.
 
 ## Cautions

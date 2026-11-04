@@ -3,6 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 // The publishable key is safe in the browser: row-level security protects the data.
 export const SUPABASE_URL = 'https://dtomacgviokomomwqagr.supabase.co';
 export const SUPABASE_KEY = 'sb_publishable_1zCKKS3P5krHdgZLWquLAg_P-9M6JG5';
+// Public ID of the Google login client (Google Cloud project tiq-taq-toq); not a secret.
+export const GOOGLE_CLIENT_ID = '610258036852-m7ceqggtau7518f3f1n6qp69t1cksra8.apps.googleusercontent.com';
 
 // PKCE returns ?code= after Google log in, which leaves the #/ page routes alone.
 export const sb = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { flowType: 'pkce' } });

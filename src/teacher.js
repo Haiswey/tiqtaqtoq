@@ -1,7 +1,7 @@
-import { t } from './i18n.js';
+import { t, getLang } from './i18n.js';
 import { IC } from './icons.js';
 import { TOPICS, topicById } from './bank.js';
-import { sb, SUPABASE_URL, SUPABASE_KEY, newCode, uploadPicture, removeUnusedPictures } from './supabase.js';
+import { sb, SUPABASE_URL, SUPABASE_KEY, GOOGLE_CLIENT_ID, newCode, uploadPicture, removeUnusedPictures } from './supabase.js';
 import { guard, header, wireHeader } from './shell.js';
 import { $, $$, esc, toast, copyText } from './util.js';
 
@@ -31,6 +31,52 @@ async function googleEnabled() {
   }
 }
 
+// Google's own sign-in button runs on this page, so Google names tiqtaqtoq.vercel.app on its screens
+// (the redirect log in below names the Supabase address instead). It is the fallback if the button cannot load.
+let gsiLoading = null;
+function loadGsi() {
+  if (!gsiLoading) {
+    gsiLoading = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://accounts.google.com/gsi/client';
+      s.async = true;
+      s.onload = () => (window.google?.accounts?.id ? resolve(window.google.accounts.id) : reject(new Error('gsi')));
+      s.onerror = reject;
+      document.head.appendChild(s);
+      setTimeout(() => reject(new Error('gsi timeout')), 8000);
+    }).catch((e) => { gsiLoading = null; throw e; });
+  }
+  return gsiLoading;
+}
+
+const GSI_LOCALE = { en: 'en', ms: 'ms', zh: 'zh_CN' };
+
+async function sha256Hex(text) {
+  const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return [...new Uint8Array(d)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function showGoogleButton(app, slot, err) {
+  const gsi = await loadGsi();
+  // Google puts the hashed nonce in its token; Supabase checks it against the raw one.
+  const nonce = crypto.randomUUID();
+  gsi.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    nonce: await sha256Hex(nonce),
+    use_fedcm_for_prompt: true,
+    callback: async ({ credential }) => {
+      err.hidden = true;
+      const { error } = await sb.auth.signInWithIdToken({ provider: 'google', token: credential, nonce });
+      if (error) { err.textContent = t('loginCancelled'); err.hidden = false; return; }
+      renderTeacher(app);
+    },
+  });
+  gsi.renderButton(slot, {
+    theme: 'outline', size: 'large', shape: 'pill', text: 'continue_with', logo_alignment: 'center',
+    width: Math.min(400, Math.max(220, slot.clientWidth)), locale: GSI_LOCALE[getLang()] || 'en',
+  });
+}
+
 function renderAuth(app) {
   app.innerHTML = `
     ${header()}
@@ -39,13 +85,19 @@ function renderAuth(app) {
       <div class="card">
         <h1>${t('teacherArea')}</h1>
         <p class="muted">${t('teacherIntro')}</p>
-        <button class="btn wide big google" id="google">${IC.google}<span>${t('google')}</span></button>
+        <div class="gsi-slot" id="gsiSlot"></div>
+        <button class="btn wide big google" id="google" hidden>${IC.google}<span>${t('google')}</span></button>
         <p class="muted small center-text">${t('googleNote')} <a href="/privacy.html">${t('privacy')}</a></p>
         <p class="err" id="authErr" ${loginError.message ? '' : 'hidden'}>${esc(loginError.message)}</p>
       </div>
     </main>`;
   wireHeader(app, () => renderAuth(app));
   const err = $('#authErr', app);
+  const slot = $('#gsiSlot', app);
+  showGoogleButton(app, slot, err).catch(() => {
+    slot.hidden = true;
+    $('#google', app).hidden = false;
+  });
   $('#google', app).onclick = async (e) => {
     const btn = e.currentTarget;
     btn.disabled = true;

@@ -357,6 +357,7 @@ textarea.field { resize: vertical; line-height: 1.4; }
 @keyframes fall { to { top: 105vh; rotate: 540deg; } }
 
 /* ----- teacher ----- */
+.gsi-slot { display: flex; justify-content: center; min-height: 44px; margin: 18px 0 10px; }
 .btn.google { background: #fff; color: #1f1f1f; border: 2px solid #dadce0; box-shadow: 0 4px 0 #dadce0; margin: 18px 0 10px; }
 .btn.google .ic { width: 22px; height: 22px; }
 .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--card-2); padding: 4px; border-radius: 14px; margin: 14px 0 18px; }

@@ -7,6 +7,10 @@
 - Teacher login: "Continue with Google" only (teacher's choice, 2026-11-04); the first log in creates the account.
   Email login links were dropped because Supabase's free email cannot reach other teachers; email + password was
   used briefly and replaced by Google before any teacher signed up.
+- The login uses Google's own sign-in button on our page (Google Identity Services + Supabase signInWithIdToken), so
+  Google names tiqtaqtoq.vercel.app instead of the Supabase address, which the teacher feared would look untrustworthy.
+  The redirect log in stays as a fallback if Google's script cannot load. A custom domain (about RM40-60 a year)
+  would let Google show the app name later; Supabase's paid custom domain was rejected as too costly.
 - Any teacher can sign up and make sets. Pupils never log in. No pupil names or results are stored online;
   names stay in the browser only.
 - No read-aloud button: the game tests pupils' reading.

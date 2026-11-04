@@ -35,4 +35,5 @@ npm run dev
 
 Supabase project `tiqtaqtoq` (Singapore). Table `question_sets` is private to each teacher (row-level security);
 pupils read one set by its code through the function `get_set_by_code`. Pictures go to the public bucket
-`question-images`, each teacher in their own folder, at most 2 MB each (the app shrinks them to 1024 px WebP).
+`question-images`, each teacher in their own folder, at most 2 MB each. The app shrinks them to 800 px WebP (JPEG on Safari), names them by content so a
+repeated picture is stored once, and lets devices cache them for a year.

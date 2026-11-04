@@ -1,7 +1,7 @@
 import { t } from './i18n.js';
 import { IC } from './icons.js';
 import { TOPICS, topicById } from './bank.js';
-import { sb, SUPABASE_URL, SUPABASE_KEY, newCode, uploadPicture, removePicture } from './supabase.js';
+import { sb, SUPABASE_URL, SUPABASE_KEY, newCode, uploadPicture, removeUnusedPictures } from './supabase.js';
 import { guard, header, wireHeader } from './shell.js';
 import { $, $$, esc, toast, copyText } from './util.js';
 
@@ -122,7 +122,7 @@ async function renderDashboard(app, user) {
     const set = sets.find((s) => s.id === row.dataset.id);
     const { error: delErr } = await sb.from('question_sets').delete().eq('id', set.id);
     if (delErr) { toast(t('netError')); return; }
-    (set.questions || []).forEach((q) => q.image && removePicture(q.image).catch(() => {}));
+    removeUnusedPictures((set.questions || []).map((q) => q.image)).catch(() => {});
     renderDashboard(app, user);
   }));
 }
@@ -158,8 +158,10 @@ async function renderEditor(app, user, { id, from }) {
     };
   }
 
+  // Pictures first stored during this edit, and pictures taken off a question. Both are deleted
+  // only if no saved set uses them, because one stored picture can be shared by several sets.
   const uploadedNow = new Set();
-  const removedSaved = new Set();
+  const dropped = new Set();
   const snapshot = () => JSON.stringify(set);
   let clean = snapshot();
   const dirty = () => snapshot() !== clean;
@@ -167,7 +169,7 @@ async function renderEditor(app, user, { id, from }) {
     if (!dirty()) return true;
     if (unloading) return false;
     if (!confirm(t('leaveUnsaved'))) return false;
-    uploadedNow.forEach((u) => removePicture(u).catch(() => {}));
+    removeUnusedPictures([...uploadedNow]).catch(() => {});
     return true;
   };
 
@@ -282,10 +284,10 @@ async function renderEditor(app, user, { id, from }) {
         if (!file) return;
         $('.uploading', card).hidden = false;
         try {
-          const url = await uploadPicture(file, user.id);
+          const { url, created } = await uploadPicture(file, user.id);
           dropPicture(q.image);
           q.image = url;
-          uploadedNow.add(url);
+          if (created) uploadedNow.add(url);
           draw();
         } catch (ex) {
           $('.uploading', card).hidden = true;
@@ -297,8 +299,7 @@ async function renderEditor(app, user, { id, from }) {
 
   function dropPicture(url) {
     if (!url) return;
-    if (uploadedNow.has(url)) { uploadedNow.delete(url); removePicture(url).catch(() => {}); }
-    else removedSaved.add(url);
+    dropped.add(url);
   }
 
   function act(name, i, k) {
@@ -370,8 +371,8 @@ async function renderEditor(app, user, { id, from }) {
       errEl.hidden = false;
       return;
     }
-    removedSaved.forEach((u) => removePicture(u).catch(() => {}));
-    removedSaved.clear();
+    removeUnusedPictures([...dropped, ...uploadedNow]).catch(() => {});
+    dropped.clear();
     uploadedNow.clear();
     clean = snapshot();
     guard.check = null;

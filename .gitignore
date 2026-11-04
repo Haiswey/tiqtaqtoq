@@ -13,3 +13,6 @@ Get Dressed this or these (short answer mode).html
 
 .vercel
 .env*
+
+# Google OAuth secret files: never commit
+client_secret_*.json

@@ -12,6 +12,10 @@
 - No read-aloud button: the game tests pupils' reading.
 - Timer (off, 10 to 60 s) and end-of-game review are per set, chosen by the teacher. Ready-made topics: no timer, review on.
 - Pictures are optional, uploaded by teachers (for picture-naming questions); no generated pictures for the bank.
+- To save the free Supabase storage and download allowance (2026-11-04): pictures are shrunk to 800 px (WebP 0.75,
+  JPEG 0.8 on Safari), named by their content so a repeated picture is stored once, and cached by devices for a year.
+  A picture is deleted only when none of the teacher's saved sets uses it. Per-set and per-teacher picture limits were
+  suggested and left for later, until many teachers use the app.
 - Two players on one device; online play on two devices was discussed and left out of version 1.
 - Habitat questions are kept word for word (Super Minds). The General Quiz questions were rewritten as full
   sentences with British spelling ("What colour is the sky?"), and "4"/"four", "10"/"ten" are both accepted.

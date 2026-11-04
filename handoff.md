@@ -9,11 +9,10 @@ _Last update: 2026-11-04_
   (team haisweys-projects), GitHub `Haiswey/tiqtaqtoq` (main). Every push to main redeploys.
 
 ## Next steps
-- Teacher sets up Google log in: a Google Cloud OAuth client (redirect URI
-  `https://dtomacgviokomomwqagr.supabase.co/auth/v1/callback`), its ID and secret pasted into Supabase
-  (Authentication, Sign In / Providers, Google), consent screen published, and Supabase URL Configuration with
-  Site URL `https://tiqtaqtoq.vercel.app` and redirect URLs `https://tiqtaqtoq.vercel.app/**`, `http://localhost:5174/**`.
-  Until then the button says "Google log in is not ready yet".
+- Google log in is set up (2026-11-04): Google Cloud project `tiq-taq-toq` (account iyewsiah@gmail.com), consent
+  screen External and In production, OAuth client "TiQ-TaQ-ToQ Supabase"; Supabase Google provider on, Site URL
+  `https://tiqtaqtoq.vercel.app`, redirect URLs `https://tiqtaqtoq.vercel.app/**` and `http://localhost:5174/**`.
+  The Google page says "continue to dtomacgviokomomwqagr.supabase.co" (free plan, no custom domain).
 - Teacher to test log in, a set with pictures, and play on a real phone.
 
 ## Cautions

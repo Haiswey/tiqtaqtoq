@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.vercel/
+.env*
+# Teacher's original local copies (kept on disk, not part of the app)
+*.txt
+Github/
+Habitat.html
+Maths (Addition).html
+Quiz (short answer mode).html
+Get Dressed this or these (short answer mode).html
+.claude/

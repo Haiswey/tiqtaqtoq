@@ -25,3 +25,6 @@
   sentences with British spelling ("What colour is the sky?"), and "4"/"four", "10"/"ten" are both accepted.
 - Interface: English, BM, Chinese; question text stays as the teacher writes it.
 - No emoji anywhere (teacher's standing rule); hand-drawn vector icons; Azim font.
+- Ready-made textbook sets use only the language of the one unit that teaches the point (teacher, 2026-11-08:
+  "don't mix units"). First one: "a or an", Super Minds 1 Unit 2 (p.25), 16 two-button questions, 8 a / 8 an,
+  built only from Unit 2 toys, the p.25 adjectives and colours. Reading only, no pictures.

@@ -33,6 +33,28 @@ const getDressed = [
   typed('______ shorts are brown.', 'these'),
 ];
 
+// Super Minds 1, Unit 2 (Let's play!), p.25: "We use an before words beginning with a, e, i, o or u."
+// Only Unit 2 language: toys, the p.25 adjectives, colours, There's / favourite / What a ...!
+const AN = ['a', 'an'];
+const aOrAn = [
+  mcq("It's ______ orange kite.", AN, 'an'),
+  mcq("It's ______ yellow kite.", AN, 'a'),
+  mcq("It's ______ ugly monster.", AN, 'an'),
+  mcq("It's ______ beautiful monster.", AN, 'a'),
+  mcq("It's ______ old go-kart.", AN, 'an'),
+  mcq("It's ______ new go-kart.", AN, 'a'),
+  mcq("There's ______ orange ball.", AN, 'an'),
+  mcq("There's ______ big ball.", AN, 'a'),
+  mcq('My favourite toy is ______ old doll.', AN, 'an'),
+  mcq('My favourite toy is ______ small doll.', AN, 'a'),
+  mcq('His favourite toy is ______ orange plane.', AN, 'an'),
+  mcq('His favourite toy is ______ red bike.', AN, 'a'),
+  mcq('Her favourite toy is ______ ugly doll.', AN, 'an'),
+  mcq("It's ______ short train.", AN, 'a'),
+  mcq('What ______ ugly old go-kart!', AN, 'an'),
+  mcq('What ______ long train!', AN, 'a'),
+];
+
 const general = [
   typed('What is 5 + 5?', '10', 'ten'),
   typed('What colour is the sky?', 'blue'),
@@ -72,6 +94,14 @@ function additionQuestions(n = 12) {
 }
 
 export const TOPICS = [
+  {
+    id: 'a-an',
+    title: 'a or an',
+    sub: 'Super Minds 1 · Unit 2',
+    kind: 'mcq',
+    color: 'purple',
+    questions: () => aOrAn,
+  },
   {
     id: 'habitat',
     title: 'Habitats',

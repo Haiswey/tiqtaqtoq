@@ -1,7 +1,7 @@
 import './style.css';
 import { t, getLang, setLang } from './i18n.js';
 import { IC, MARK } from './icons.js';
-import { TOPICS, topicById } from './bank.js';
+import { TOPICS, GROUPS, topicById } from './bank.js';
 import { sb, fetchSetByCode } from './supabase.js';
 import { runGame } from './game.js';
 import { renderTeacher, loginError } from './teacher.js';
@@ -33,14 +33,17 @@ function renderHome() {
 
       <section>
         <h2 class="section-title">${t('topics')}</h2>
-        <div class="topics">
-          ${TOPICS.map((tp) => `
-            <a class="topic ${tp.color}" href="#/topic/${tp.id}">
-              <span class="tico">${IC.book}</span>
-              <span class="tname">${esc(tp.title)}</span>
-              <span class="tsub">${esc(tp.sub)} · ${tp.kind === 'mcq' ? t('mcq') : t('typed')}</span>
-            </a>`).join('')}
-        </div>
+        ${GROUPS.map((g) => `
+          <h3 class="group-title">${t(`group_${g}`)}</h3>
+          <div class="topics">
+            ${TOPICS.filter((tp) => tp.group === g).map((tp) => `
+              <a class="topic ${tp.color}" href="#/topic/${tp.id}">
+                ${tp.year ? `<span class="tyear">${t('year', { n: tp.year })}</span>` : ''}
+                <span class="tico">${IC.book}</span>
+                <span class="tname">${esc(tp.title)}</span>
+                <span class="tsub">${esc(tp.sub)} · ${tp.kind === 'mcq' ? t('mcq') : t('typed')}</span>
+              </a>`).join('')}
+          </div>`).join('')}
       </section>
     </main>`;
   wireHeader(app, renderHome);

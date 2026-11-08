@@ -25,7 +25,7 @@ npm run dev
 | `src/main.js` | Pages for pupils (home, set-up) and the page router |
 | `src/game.js` | The game: board, questions, computer opponent, timer, end page and review |
 | `src/teacher.js` | Teacher log in, list of sets, question editor, picture upload |
-| `src/bank.js` | Ready-made topics (Habitats, Addition, Get Dressed, General Quiz) |
+| `src/bank.js` | Ready-made topics, grouped into Grammar, Spelling and Topics, each tagged with its Super Minds 1 unit and Year |
 | `src/i18n.js` | All interface text in English, BM and Chinese |
 | `src/supabase.js` | Database connection, game codes, picture upload |
 | `api/keepalive.js` | Daily call (Vercel Cron) so the free Supabase project never pauses |

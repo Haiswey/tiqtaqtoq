@@ -182,6 +182,12 @@ textarea.field { resize: vertical; line-height: 1.4; }
   background: var(--card); box-shadow: var(--shadow); border-top: 8px solid var(--tc);
   transition: transform .12s;
 }
+.group-title { font-size: 1.05rem; margin: 18px 4px 10px; color: var(--muted); letter-spacing: .3px; }
+.topic { position: relative; }
+.tyear {
+  position: absolute; top: 12px; right: 12px; padding: 3px 10px; border-radius: 999px;
+  background: var(--card-2); color: var(--muted); font-size: .8rem; font-weight: 700; white-space: nowrap;
+}
 .topic:hover { transform: translateY(-3px); }
 .topic .tico { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; background: var(--tc); color: #fff; margin-bottom: 6px; }
 .topic .tico .ic { width: 26px; height: 26px; }

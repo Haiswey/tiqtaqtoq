@@ -56,26 +56,26 @@ const aOrAn = [
 ];
 
 // Super Minds 1, Unit 2, p.T23: "This is Sophie. How old is she? Her favourite toy is her bike."
-// The Super Friends are used so pupils know who is a boy (Thunder, Flash) and who is a girl (Misty, Whisper).
+// The Super Friends are used so pupils know who is a boy (Thunder, Whisper) and who is a girl (Misty, Flash).
 const HE = ['He', 'She'];
 const he = ['he', 'she'];
 const HIS = ['His', 'Her'];
 const his = ['his', 'her'];
 const heSheHisHer = [
   mcq('This is Misty. ______ is seven.', HE, 'She'),
-  mcq('This is Flash. ______ is seven.', HE, 'He'),
+  mcq('This is Flash. ______ is seven.', HE, 'She'),
   mcq("This is Thunder. ______'s six.", HE, 'He'),
-  mcq("This is Whisper. ______'s six.", HE, 'She'),
-  mcq('This is Whisper. How old is ______?', he, 'she'),
-  mcq('This is Thunder. How old is ______?', he, 'he'),
+  mcq("This is Whisper. ______'s six.", HE, 'He'),
+  mcq('This is Whisper. How old is ______?', he, 'he'),
+  mcq('This is Flash. How old is ______?', he, 'she'),
   mcq('This is Thunder. ______ favourite toy is a kite.', HIS, 'His'),
-  mcq('This is Whisper. ______ favourite toy is a doll.', HIS, 'Her'),
-  mcq('This is Flash. ______ favourite toy is a go-kart.', HIS, 'His'),
+  mcq('This is Whisper. ______ favourite toy is a go-kart.', HIS, 'His'),
+  mcq('This is Flash. ______ favourite toy is a doll.', HIS, 'Her'),
   mcq('This is Misty. ______ favourite toy is a ball.', HIS, 'Her'),
   mcq('This is Misty. Her favourite toy is ______ bike.', his, 'her'),
-  mcq('This is Flash. His favourite toy is ______ train.', his, 'his'),
-  mcq("What's ______ name? This is Whisper.", his, 'her'),
-  mcq("What's ______ name? This is Thunder.", his, 'his'),
+  mcq('This is Thunder. His favourite toy is ______ train.', his, 'his'),
+  mcq("What's ______ name? This is Whisper.", his, 'his'),
+  mcq("What's ______ name? This is Flash.", his, 'her'),
 ];
 
 // Super Minds 1, Unit 3, p.T36 song: "Nine rats are in the desk." Only Unit 3 animals and the song's places.

@@ -28,7 +28,7 @@
 - Ready-made textbook sets use only the language of the one unit that teaches the point (teacher, 2026-11-08:
   "don't mix units"). First one: "a or an", Super Minds 1 Unit 2 (p.25), 16 two-button questions, 8 a / 8 an,
   built only from Unit 2 toys, the p.25 adjectives and colours. Reading only, no pictures.
-- 2026-11-08: five more Super Minds 1 sets, each from one unit: he / she / his / her (Unit 2, Super Friends so pupils
+- 2026-11-08: five more Super Minds 1 sets, each from one unit: he / she / his / her (Unit 2, Super Friends: Misty and Flash are girls, Thunder and Whisper are boys, so pupils
   know boy or girl), Plurals (Unit 3 song, typed, word to spell in brackets, a few singulars), Days of the week
   (Unit 5, typed; the teacher removed the chant-line questions, so all are "three days in a row", each day twice),
   is / are wearing (Unit 7 names Paul, Ken, Lara, Emma, with short answers), Where's / Where are and It's / They're

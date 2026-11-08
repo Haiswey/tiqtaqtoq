@@ -126,7 +126,8 @@ export function runGame(root, cfg) {
 
   function askQuestion(cellIdx, q, compMode = false) {
     const p = cfg.players[S.cur];
-    const mcqWide = q.type === 'mcq' && q.options.some((o) => String(o).length > 16);
+    // One column for long choices, and for three choices so none sits alone on a second row.
+    const mcqWide = q.type === 'mcq' && (q.options.length === 3 || q.options.some((o) => String(o).length > 16));
     const order = q.type === 'mcq' ? shuffle(q.options.map((_, i) => i)) : [];
     qcard.className = `qcard ${MARKS[S.cur].toLowerCase()}`;
     qcard.innerHTML = `

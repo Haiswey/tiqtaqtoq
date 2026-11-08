@@ -161,6 +161,84 @@ const whereIs = [
   mcq('Where are the photos? ______ in the bag.', ITS, "They're"),
 ];
 
+// Super Minds 1, Unit 1 Art (pp.18-19): primary and secondary colours, white makes a colour lighter.
+const mixingColours = [
+  mcq("Red and yellow make ______.", ["orange", "green", "purple", "pink"], "orange"),
+  mcq("Blue and yellow make ______.", ["green", "orange", "purple", "grey"], "green"),
+  mcq("Red and blue make ______.", ["purple", "green", "orange", "pink"], "purple"),
+  mcq("Red and white make ______.", ["pink", "grey", "green", "orange"], "pink"),
+  mcq("Black and white make ______.", ["grey", "pink", "purple", "green"], "grey"),
+  mcq("Mix yellow and ______ to make green.", ["blue", "red", "white", "black"], "blue"),
+  mcq("Mix red and ______ to make purple.", ["blue", "yellow", "white", "green"], "blue"),
+  mcq("Mix yellow and ______ to make orange.", ["red", "blue", "black", "green"], "red"),
+  mcq("Which colour is a primary colour?", ["red", "green", "orange", "purple"], "red"),
+  mcq("Which colour is a primary colour?", ["blue", "purple", "pink", "grey"], "blue"),
+  mcq("Which colour is a primary colour?", ["yellow", "orange", "green", "pink"], "yellow"),
+  mcq("Which colour is a secondary colour?", ["green", "red", "blue", "yellow"], "green"),
+  mcq("Which colour is a secondary colour?", ["orange", "yellow", "red", "blue"], "orange"),
+  mcq("Which colour is a secondary colour?", ["purple", "blue", "yellow", "red"], "purple"),
+];
+
+// Super Minds 1, Unit 4 Science (pp.54-55): where fruit and vegetables grow, fruit or vegetable.
+const foodGrows = [
+  mcq("Where do potatoes grow?", ["In the ground", "On trees", "On plants"], "In the ground"),
+  mcq("Where do onions grow?", ["In the ground", "On trees", "On plants"], "In the ground"),
+  mcq("Where do carrots grow?", ["In the ground", "On trees", "On plants"], "In the ground"),
+  mcq("Where do apples grow?", ["In the ground", "On trees", "On plants"], "On trees"),
+  mcq("Where do pears grow?", ["In the ground", "On trees", "On plants"], "On trees"),
+  mcq("Where do coconuts grow?", ["In the ground", "On trees", "On plants"], "On trees"),
+  mcq("Where do peaches grow?", ["In the ground", "On trees", "On plants"], "On trees"),
+  mcq("Where do tomatoes grow?", ["In the ground", "On trees", "On plants"], "On plants"),
+  mcq("Where do strawberries grow?", ["In the ground", "On trees", "On plants"], "On plants"),
+  mcq("Where do green beans grow?", ["In the ground", "On trees", "On plants"], "On plants"),
+  mcq("Where do peas grow?", ["In the ground", "On trees", "On plants"], "On plants"),
+  mcq("Pineapples are ______.", ["fruit", "vegetables"], "fruit"),
+  mcq("Coconuts are ______.", ["fruit", "vegetables"], "fruit"),
+  mcq("Broccoli is a ______.", ["fruit", "vegetable"], "vegetable"),
+  mcq("Which is a fruit?", ["peach", "onion", "potato", "broccoli"], "peach"),
+  mcq("Which is a vegetable?", ["potato", "pear", "pineapple", "strawberry"], "potato"),
+];
+
+// Super Minds 1, Unit 5 Social science (pp.66-67): healthy and unhealthy, keep fit, learn new things.
+const healthyLife = [
+  mcq("Do sport every day. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Healthy"),
+  mcq("Sleep for ten hours. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Healthy"),
+  mcq("Eat carrots and peas. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Healthy"),
+  mcq("Eat apples and bananas. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Healthy"),
+  mcq("Go swimming on Saturday. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Healthy"),
+  mcq("Ride a bike. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Healthy"),
+  mcq("Read books and learn new things. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Healthy"),
+  mcq("Do nothing every day. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Unhealthy"),
+  mcq("Sleep for two hours. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Unhealthy"),
+  mcq("Eat cake every day. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Unhealthy"),
+  mcq("Eat pizza every day. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Unhealthy"),
+  mcq("Eat hot dogs every day. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Unhealthy"),
+  mcq("Do nothing on Saturday and Sunday. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Unhealthy"),
+  mcq("Sleep for three hours. Is it healthy or unhealthy?", ["Healthy", "Unhealthy"], "Unhealthy"),
+  mcq("How can you keep fit?", ["Do sport.", "Do nothing.", "Eat cake.", "Sleep for two hours."], "Do sport."),
+  mcq("How can you learn new things?", ["Read books.", "Do nothing.", "Eat pizza.", "Sleep for two hours."], "Read books."),
+];
+
+// Super Minds 1, Unit 7 Science (pp.90-91): wool from sheep, leather from cows, cotton from plants.
+const materials = [
+  mcq("Where does wool come from?", ["Sheep", "Cows", "Cotton plants"], "Sheep"),
+  mcq("Where does leather come from?", ["Sheep", "Cows", "Cotton plants"], "Cows"),
+  mcq("Where does cotton come from?", ["Sheep", "Cows", "Cotton plants"], "Cotton plants"),
+  mcq("Woollen socks come from ______.", ["sheep", "cows", "cotton plants"], "sheep"),
+  mcq("Leather shoes come from ______.", ["sheep", "cows", "cotton plants"], "cows"),
+  mcq("Cotton shorts come from ______.", ["sheep", "cows", "cotton plants"], "cotton plants"),
+  mcq("This jacket comes from a cow. It is ______.", ["leather", "wool", "cotton"], "leather"),
+  mcq("Which material comes from cows?", ["leather", "wool", "cotton"], "leather"),
+  mcq("Which material comes from sheep?", ["leather", "wool", "cotton"], "wool"),
+  mcq("Which material comes from a plant?", ["leather", "wool", "cotton"], "cotton"),
+  mcq("Wool is ______.", ["warm", "strong", "cool"], "warm"),
+  mcq("Leather is ______.", ["warm", "strong", "cool"], "strong"),
+  mcq("Cotton is ______.", ["warm", "strong", "cool"], "cool"),
+  mcq("You can wear leather shoes. They are ______.", ["warm", "strong", "cool"], "strong"),
+  mcq("You can wear a woollen sweater. It is ______.", ["warm", "strong", "cool"], "warm"),
+  mcq("You can wear a cotton T-shirt. It is ______.", ["warm", "strong", "cool"], "cool"),
+];
+
 const general = [
   typed('What is 5 + 5?', '10', 'ten'),
   typed('What colour is the sky?', 'blue'),
@@ -213,7 +291,11 @@ export const TOPICS = [
   { id: 'where', group: 'grammar', year: 2, title: "Where's / Where are", sub: sm1(9), kind: 'mcq', color: 'purple', questions: () => whereIs },
   { id: 'plurals', group: 'spelling', year: 1, title: 'Plurals', sub: sm1(3), kind: 'typed', color: 'pink', questions: () => plurals },
   { id: 'days', group: 'spelling', year: 2, title: 'Days of the week', sub: sm1(5), kind: 'typed', color: 'pink', questions: () => days },
+  { id: 'colours', group: 'topics', year: 1, title: 'Mixing colours', sub: sm1(1), kind: 'mcq', color: 'yellow', questions: () => mixingColours },
+  { id: 'food', group: 'topics', year: 1, title: 'Where food grows', sub: sm1(4), kind: 'mcq', color: 'green', questions: () => foodGrows },
+  { id: 'healthy', group: 'topics', year: 2, title: 'A healthy life', sub: sm1(5), kind: 'mcq', color: 'blue', questions: () => healthyLife },
   { id: 'habitat', group: 'topics', year: 2, title: 'Habitats', sub: sm1(6), kind: 'mcq', color: 'green', questions: () => habitat },
+  { id: 'materials', group: 'topics', year: 2, title: 'Materials', sub: sm1(7), kind: 'mcq', color: 'pink', questions: () => materials },
   { id: 'addition', group: 'topics', title: 'Addition', sub: '1 + 1 to 10 + 10', kind: 'mcq', color: 'blue', random: true, questions: () => additionQuestions(12) },
   { id: 'general', group: 'topics', title: 'General Quiz', sub: 'Mixed questions', kind: 'typed', color: 'yellow', questions: () => general },
 ];

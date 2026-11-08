@@ -36,3 +36,8 @@
 - Home page groups: Grammar, Spelling, Topics, in unit order, with a Year label. The teacher's school teaches
   Friends to Unit 4 in Year 1 and Units 5-9 in Year 2. Habitats is Unit 6 and Get Dressed is Unit 7 (Grammar).
   Addition and General Quiz have no Year label.
+- 2026-11-08: four reading topics like Habitats, from each unit's cross-curricular lesson and its answer keys:
+  Mixing colours (Unit 1 Art), Where food grows (Unit 4 Science; tomatoes left out of fruit-or-vegetable because
+  the book calls them a fruit used as a vegetable), A healthy life (Unit 5 Social science), Materials (Unit 7 Science).
+  Units 2 (shapes) and 8 (skeleton) were judged unsuitable without pictures; Units 3 and 9 were left for later.
+- Three-choice questions are shown in one column so no button sits alone on a second row.
